@@ -3,15 +3,21 @@ var map;
 var max_distance = 1000;
 
 $("#locate").click(function() {
-    load_map({lat: 53.340489, lng: -6.267577}, 1000) // for testing
-    // var loc = getLocation()
-    // console.log(loc)
-    // load_map(getLocation(), max_distance);
+    load_map({
+            lat: 53.340489,
+            lng: -6.267577
+        }, 1000) // for testing
+        // var loc = getLocation()
+        // console.log(loc)
+        // load_map(getLocation(), max_distance);
 });
 
 $("#save_reload").click(function() {
-	max_distance = $("#settings_max_distance").val();
-	load_map({lat: 53.340489, lng: -6.267577}, max_distance * 1000)
+    max_distance = $("#settings_max_distance").val();
+    load_map({
+        lat: 53.340489,
+        lng: -6.267577
+    }, max_distance * 1000)
 })
 
 // function getLocation() {
@@ -36,7 +42,7 @@ $("#save_reload").click(function() {
 
 // load the full map with markers etc
 function load_map(location, max_distance) {
-	clear();
+    clear();
     $.getJSON(URL, function(data) {
         var results = data.feed.entry;
         $(".header_card").remove()
@@ -55,9 +61,9 @@ function load_map(location, max_distance) {
             },
             zoom: 11,
             mapTypeControlOptions: {
-		        style: google.maps.MapTypeControlStyle.HORIZONTAL_BAR,
-		        position: google.maps.ControlPosition.RIGHT_BOTTOM
-		    }
+                style: google.maps.MapTypeControlStyle.HORIZONTAL_BAR,
+                position: google.maps.ControlPosition.RIGHT_BOTTOM
+            }
         });
 
         var current_location_marker = new google.maps.Marker({
@@ -112,10 +118,33 @@ function load_map(location, max_distance) {
                     directionsDisplay.setMap(null);
                     directionsDisplay.setMap(map);
                     // plot the route
-                    get_route(directionsService, directionsDisplay, location, {
+                    x = get_route(directionsService, directionsDisplay, location, {
                         lat: card.lat,
                         lng: card.lng
                     });
+                    console.log(x)
+                    var boxText = '<div class="mdl-card mdl-shadow--2dp" style=" border-radius: 5px; padding: 10px;"><div><p style="font-size: 16px;"><strong></strong> - stop id: </p></div><div></div><div></div><br><a style="background-color: rgba(63, 81, 181, 1); color: white;" class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">Live departures</a></div>';
+
+                    var myOptions = {
+                         content: boxText
+                        ,disableAutoPan: false
+                        ,maxWidth: 0
+                        ,pixelOffset: new google.maps.Size(25, -100)
+                        ,zIndex: null
+                        ,boxStyle: {
+                          opacity: 0.95
+                          ,width: "280px"
+                         }
+                        ,closeBoxMargin: "10px 2px 2px 2px"
+                        ,closeBoxURL: "file/close-window.png"
+                        ,infoBoxClearance: new google.maps.Size(1, 1)
+                        ,isHidden: false
+                        ,pane: "floatPane"
+                        ,enableEventPropagation: false
+                    };
+
+                    var ib = new InfoBox(myOptions);
+                    ib.open(map, this);
 
                     $("#place_card").replaceWith(render_place_card(card, false))
                 });
@@ -152,6 +181,7 @@ function construct_card_data(card_data) {
     var content = card_data.gsx$content.$t;
     var button_url = card_data.gsx$buttonurl.$t;
     var image_url = card_data.gsx$imageurl.$t;
+    var type = card_data.gsx$type.$t;
     var score = parseFloat(card_data.gsx$score.$t);
     var lat = parseFloat(card_data.gsx$latitude.$t);
     var lng = parseFloat(card_data.gsx$longitude.$t);
@@ -162,6 +192,7 @@ function construct_card_data(card_data) {
         "content": content,
         "button_url": button_url,
         "image_url": image_url,
+        "type": type,
         "score": score,
         "lat": lat,
         "lng": lng
@@ -190,19 +221,36 @@ function render_place_card(card_data, is_placeholder) {
 			<div class="mdl-card__supporting-text">
 			 {{ subtitle }}
 			</div>
+            <div id="{{ button_url }}" class="mdl-card__supporting-text" style="display: none;">
+             {{ subtitle }}
+            </div>
 			<div class="mdl-card__actions mdl-card--border">
-			    <a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect" onclick="show_full_card('{{ button_url }}');">
+			    <a class="mdl-button mdl-button--colored mdl-button-rounded mdl-js-button mdl-js-ripple-effect" onclick="$('#{{ button_url }}').show(); $(this).hide(); resize_bigger_card();">
 			       Show more...
 			    </a>
 			  </div>
 			<div class="mdl-card__menu">
+            <button id="resize" class="mdl-button bigmap" onclick="resize();">
+                <i class="material-icons">expand_less</i>
+            </button>
 			</div>
 		</div>`, card_data);
     return card_render
 }
 
-function show_full_card(card) {
-	alert("clicked!")
+
+function resize() {
+    if ($("#resize").hasClass("bigmap")) {
+        $("#resize").removeClass("bigmap").addClass("bigcard");
+        $("#map").css("height", "35vh");
+        $("#place_card").css("height", "55vh");
+        $("#resize").html('<i class="material-icons">expand_more</i>')
+    } else {
+        $("#resize").removeClass("bigcard").addClass("bigmap");
+        $("#map").css("height", "55vh");
+        $("#place_card").css("height", "35vh");
+        $("#resize").html('<i class="material-icons">expand_less</i>')
+    }
 }
 
 function clear() {

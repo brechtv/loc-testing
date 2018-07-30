@@ -1,9 +1,28 @@
+/* #673AB7
+#4CAF50
+#8BC34A */
+
+@import url('https://fonts.googleapis.com/css?family=Roboto|Roboto+Slab');
+
+h1, h2, h3, h4 {
+    font-family: 'Roboto Slab', serif;
+  color: #673AB7;
+}
+
 #map {
 	height: 55vh;
 }
 
 #place_card {
 	min-height: 35vh;
+}
+
+.mdl-container {
+  max-width: 1024px;
+}
+
+.mdl-layout__drawer-button {
+  color: #673AB7;
 }
 
 .mdl-grid {
@@ -19,8 +38,23 @@
 	width: 100%;
 }
 
-.mdl-card {
-	margin-bottom: 10px;
+.mdl-card__title .mdl-card__title-text {
+  font-family: 'Roboto Slab', serif;
+  color: #673AB7;
+}
+
+.mdl-button-rounded {
+  background-color: white;
+  border-style: solid;
+  border-width: 1px;
+  border-color: #673AB7;
+  color: #673AB7;
+  border-radius: 18px;
+}
+
+.mdl-button-rounded:hover {
+  background-color: #673AB7;
+  color: white;
 }
 
 .header_card {
@@ -28,4 +62,11 @@
 }
 .header_card .mdl-card__title {
 	height: 35vh;
+  background: linear-gradient(rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.8)), url('images/header.jpg') center/cover;
+}
+
+.header_card .mdl-card__title .mdl-card__title-text {
+  font-family: 'Roboto Slab', serif;
+  font-size: 48px;
+  color: #673AB7;
 }

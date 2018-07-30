@@ -7,16 +7,17 @@
 		<link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.indigo-pink.min.css">
 		<script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
 		<script defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDnJ6YfjWb7bDBtJl9OyGHzJybd6C7n0Eg&libraries=geometry"></script>
+		<script defer src="vendor/infobox/infobox.js"></script>
 		<link rel="stylesheet" type="text/css" href="app.css">
 	</head>
 	<body>
 		<body>
-			<div class="mdl-layout mdl-js-layout mdl-layout--fixed-drawer">
+			<div class="mdl-layout mdl-js-layout">
 				<div class="mdl-layout__drawer">
-					<span class="mdl-layout-title">App settings</span>
+					<span class="mdl-layout-title">Getting around</span>
 					<nav class="mdl-navigation">
 						<li class="mdl-navigation__link" href="">
-							<label for="settings_max_distance">Maximum distance</label>
+							<label for="settings_max_distance">Set maximum distance you'd like to walk</label>
 							<input id="settings_max_distance" class="mdl-slider mdl-js-slider" type="range"
 							min="1" max="4" value="2" tabindex="0">
 						</li>
@@ -27,16 +28,17 @@
 					<div class="page-content">
 						<div class="mdl-tabs mdl-js-tabs mdl-js-ripple-effect">
 							<div class="mdl-container mdl-grid">
-								<div class="mdl-cell mdl-cell--2-col mdl-cell--hide-tablet mdl-cell--hide-phone"></div>
 								<div class="mdl-content mdl-shadow--0dp content mdl-color-text--grey-800 mdl-cell mdl-cell--8-col">
 									<div class="header_card mdl-card mdl-card-wide mdl-shadow--2dp" id="header_card">
 										<div class="mdl-card__title">
 											<h2 class="mdl-card__title-text">Welcome</h2>
 										</div>
 										<div class="mdl-card__supporting-text">
+											<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur eu lectus felis. Proin eget ante metus. Curabitur velit enim, sollicitudin ut sem nec, fermentum tincidunt risus. Quisque vestibulum purus a orci elementum, in fringilla odio laoreet. Curabitur eget vehicula felis, sed accumsan erat. Sed interdum dictum neque, sed porta velit iaculis ac. Praesent quis consectetur tellus. Nam congue ullamcorper mollis. Nulla eget vestibulum risus. Donec at rhoncus lorem. Duis vel laoreet lacus. Vivamus fringilla malesuada erat. Vivamus iaculis metus sem, id pulvinar metus viverra in. Donec id semper arcu. Suspendisse massa augue, bibendum at magna quis, ornare fringilla neque.</p>
+											<p>Click below to get started!</p>
 										</div>
 										<div class="mdl-card__actions mdl-card--border">
-											<a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect" id="locate">Locate me!
+											<a class="mdl-button mdl-button--colored mdl-button-rounded mdl-js-button mdl-js-ripple-effect" id="locate">Locate me!
 											</a>
 										</div>
 										<div class="mdl-card__menu">
