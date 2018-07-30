@@ -1,0 +1,31 @@
+#map {
+	height: 55vh;
+}
+
+#place_card {
+	min-height: 35vh;
+}
+
+.mdl-grid {
+	padding: 0px;
+}
+
+.mdl-cell {
+	width: 100%;
+	margin: 0px;
+}
+
+.mdl-card-wide {
+	width: 100%;
+}
+
+.mdl-card {
+	margin-bottom: 10px;
+}
+
+.header_card {
+	height: 100vh;
+}
+.header_card .mdl-card__title {
+	height: 35vh;
+}
