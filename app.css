@@ -5,7 +5,7 @@
 @import url('https://fonts.googleapis.com/css?family=Roboto|Roboto+Slab');
 
 h1, h2, h3, h4 {
-    font-family: 'Roboto Slab', serif;
+  font-family: 'Roboto Slab', serif;
   color: #673AB7;
 }
 
@@ -16,6 +16,20 @@ h1, h2, h3, h4 {
 #place_card {
 	min-height: 35vh;
 }
+
+#resize {
+  text-align: center;
+  border-radius: 16px;
+  background-color: white;
+  color: #673AB7;
+  min-width: 32px;
+  width: 32px;
+  height: 32px;
+}
+
+#resize > .material-icons {
+  font-size: 16px;
+  }
 
 .mdl-container {
   max-width: 1024px;
@@ -38,9 +52,13 @@ h1, h2, h3, h4 {
 	width: 100%;
 }
 
+.mdl-card__title {
+  background-color: #4CAF50;
+}
+
 .mdl-card__title .mdl-card__title-text {
   font-family: 'Roboto Slab', serif;
-  color: #673AB7;
+  color: #fff;
 }
 
 .mdl-button-rounded {
@@ -62,11 +80,11 @@ h1, h2, h3, h4 {
 }
 .header_card .mdl-card__title {
 	height: 35vh;
-  background: linear-gradient(rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.8)), url('images/header.jpg') center/cover;
+  background-color: #4CAF50;
 }
 
 .header_card .mdl-card__title .mdl-card__title-text {
   font-family: 'Roboto Slab', serif;
   font-size: 48px;
-  color: #673AB7;
+  color: white;
 }

@@ -1,16 +1,32 @@
 var URL = "https://spreadsheets.google.com/feeds/list/1fi3Y_x6XuwIolXCTv-Jcdg1qpoiMLYVzz3_z7zmE4XA/od6/public/values?alt=json"
 var map;
-var max_distance = 1000;
+var max_distance = 2000;
 
-$("#locate").click(function() {
-    load_map({
-            lat: 53.340489,
-            lng: -6.267577
-        }, 1000) // for testing
-        // var loc = getLocation()
-        // console.log(loc)
-        // load_map(getLocation(), max_distance);
-});
+
+$(function() {
+    $.getJSON(URL, function(data) {
+        var results = data.feed.entry;
+        $.each(results, function(key, result) {
+            if (key == 0) {
+                header_card_data = construct_card_data(result);
+                header_card = Mustache.render(header_card_template, header_card_data);
+                $(".mdl-content").append(header_card);
+
+                $("#start").click(function() {
+                    load_map({
+                            lat: 53.340489,
+                            lng: -6.267577
+                        }, max_distance) // for testing
+                        // var loc = getLocation()
+                        // console.log(loc)
+                        // load_map(getLocation(), max_distance);
+                });
+            }
+        })
+    })
+})
+
+
 
 $("#save_reload").click(function() {
     max_distance = $("#settings_max_distance").val();
@@ -37,7 +53,6 @@ $("#save_reload").click(function() {
 //     } else {
 //         alert("Could not find location!")
 //     }
-
 // }
 
 // load the full map with markers etc
@@ -50,7 +65,7 @@ function load_map(location, max_distance) {
 			<div class="mdl-card mdl-card-wide mdl-shadow--2dp clear_content">
 				<div id="map"></div>
 			</div>`)
-        $(".mdl-content").append(render_place_card(null, true))
+        $(".mdl-content").append(intro_card_template)
         markers = [];
         var directionsService = new google.maps.DirectionsService();
         var directionsDisplay = new google.maps.DirectionsRenderer();
@@ -74,80 +89,61 @@ function load_map(location, max_distance) {
 
         markers.push(current_location_marker)
         $.each(results, function(key, result) {
+            if (key >= 10) {
+                var card = construct_card_data(result)
+                console.log(key)
+                console.log(card)
+                a = new google.maps.LatLng(location.lat, location.lng);
+                b = new google.maps.LatLng(card.lat, card.lng);
+                var distance_to_card = google.maps.geometry.spherical.computeDistanceBetween(a, b)
 
-            var card = construct_card_data(result)
-            a = new google.maps.LatLng(location.lat, location.lng);
-            b = new google.maps.LatLng(card.lat, card.lng);
-            var distance_to_card = google.maps.geometry.spherical.computeDistanceBetween(a, b)
+                if (distance_to_card < max_distance) {
 
-            if (distance_to_card < max_distance) {
-
-                // for size according to score
-                var dot = {
-                    path: 'M-1,0a1,1 0 1,0 2,0a1,1 0 1,0 -2,0',
-                    fillColor: '#3F51B5',
-                    fillOpacity: 0.75,
-                    scale: card.score * 5,
-                    strokeColor: '#3F51B5',
-                    strokeWeight: 2
-                };
-                // the size bubble
-                var marker = new google.maps.Marker({
-                    position: {
-                        lat: card.lat,
-                        lng: card.lng
-                    },
-                    icon: dot,
-                    map: map,
-                    title: card.title
-                });
-                // the actual pin
-                var marker = new google.maps.Marker({
-                    position: {
-                        lat: card.lat,
-                        lng: card.lng
-                    },
-                    map: map,
-                    title: card.title
-                });
-                // add it for fitbounds
-                markers.push(marker)
-                    //click to update card info
-
-                marker.addListener('click', function() {
-                    directionsDisplay.setMap(null);
-                    directionsDisplay.setMap(map);
-                    // plot the route
-                    x = get_route(directionsService, directionsDisplay, location, {
-                        lat: card.lat,
-                        lng: card.lng
-                    });
-                    console.log(x)
-                    var boxText = '<div class="mdl-card mdl-shadow--2dp" style=" border-radius: 5px; padding: 10px;"><div><p style="font-size: 16px;"><strong></strong> - stop id: </p></div><div></div><div></div><br><a style="background-color: rgba(63, 81, 181, 1); color: white;" class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">Live departures</a></div>';
-
-                    var myOptions = {
-                         content: boxText
-                        ,disableAutoPan: false
-                        ,maxWidth: 0
-                        ,pixelOffset: new google.maps.Size(25, -100)
-                        ,zIndex: null
-                        ,boxStyle: {
-                          opacity: 0.95
-                          ,width: "280px"
-                         }
-                        ,closeBoxMargin: "10px 2px 2px 2px"
-                        ,closeBoxURL: "file/close-window.png"
-                        ,infoBoxClearance: new google.maps.Size(1, 1)
-                        ,isHidden: false
-                        ,pane: "floatPane"
-                        ,enableEventPropagation: false
+                    // for size according to score
+                    var dot = {
+                        path: 'M-1,0a1,1 0 1,0 2,0a1,1 0 1,0 -2,0',
+                        fillColor: '#3F51B5',
+                        fillOpacity: 0.75,
+                        scale: card.score * 5,
+                        strokeColor: '#3F51B5',
+                        strokeWeight: 2
                     };
+                    // the size bubble
+                    var marker = new google.maps.Marker({
+                        position: {
+                            lat: card.lat,
+                            lng: card.lng
+                        },
+                        icon: dot,
+                        map: map,
+                        title: card.title
+                    });
+                    // the actual pin
+                    var marker = new google.maps.Marker({
+                        position: {
+                            lat: card.lat,
+                            lng: card.lng
+                        },
+                        icon: "images/guinness_icon_64.png",
+                        map: map,
+                        title: card.title
+                    });
+                    // add it for fitbounds
+                    markers.push(marker)
+                        //click to update card info
 
-                    var ib = new InfoBox(myOptions);
-                    ib.open(map, this);
+                    marker.addListener('click', function() {
+                        directionsDisplay.setMap(null);
+                        directionsDisplay.setMap(map);
+                        // plot the route
+                        x = get_route(directionsService, directionsDisplay, location, {
+                            lat: card.lat,
+                            lng: card.lng
+                        });
 
-                    $("#place_card").replaceWith(render_place_card(card, false))
-                });
+                        $("#place_card").replaceWith(render_place_card(card, false))
+                    });
+                }
             }
         })
         var bound = new google.maps.LatLngBounds();
@@ -168,6 +164,10 @@ function get_route(directionsService, directionsDisplay, pointA, pointB) {
     }, function(response, status) {
         if (status == google.maps.DirectionsStatus.OK) {
             directionsDisplay.setDirections(response);
+            console.log(response)
+            duration = response.routes[0].legs[0].duration.text
+            distance = response.routes[0].legs[0].distance.text
+            $("#distance_duration").html(duration + " walking (" + distance + ")")
         } else {
             window.alert('Directions request failed due to ' + status);
         }
@@ -208,33 +208,12 @@ function render_place_card(card_data, is_placeholder) {
             "subtitle": "",
             "content": "",
             "button_url": "",
-            "image_url": "",
+            "image_url": "https://img.maximummedia.ie/joe_ie/eyJkYXRhIjoie1widXJsXCI6XCJodHRwOlxcXC9cXFwvbWVkaWEtam9lLm1heGltdW1tZWRpYS5pZS5zMy5hbWF6b25hd3MuY29tXFxcL3dwLWNvbnRlbnRcXFwvdXBsb2Fkc1xcXC8yMDE4XFxcLzAzXFxcLzE1MDk1MTIyXFxcL3JhbmtkdWJsaW4uanBnXCIsXCJ3aWR0aFwiOjc2NyxcImhlaWdodFwiOjQzMSxcImRlZmF1bHRcIjpcImh0dHBzOlxcXC9cXFwvd3d3LmpvZS5pZVxcXC9hc3NldHNcXFwvaW1hZ2VzXFxcL2pvZVxcXC9uby1pbWFnZS5wbmc_dj01XCJ9IiwiaGFzaCI6Ijk3OWUzMWEyOTQwZGI1YjM1NjM2YzlmNzI4YTA4NDAwN2M4YjVkMjEifQ==/rankdublin.jpg",
             "lat": null,
             "lng": null
         }
     }
-    var card_render = Mustache.render(`
-			<div id="place_card" class="place_card mdl-card mdl-card-wide clear_content">
-			<div class="mdl-card__title" style="background: linear-gradient(rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.8)), url('{{ image_url }}') center/cover;">
-				<h2 class="mdl-card__title-text">{{ title }}</h2>
-			</div>
-			<div class="mdl-card__supporting-text">
-			 {{ subtitle }}
-			</div>
-            <div id="{{ button_url }}" class="mdl-card__supporting-text" style="display: none;">
-             {{ subtitle }}
-            </div>
-			<div class="mdl-card__actions mdl-card--border">
-			    <a class="mdl-button mdl-button--colored mdl-button-rounded mdl-js-button mdl-js-ripple-effect" onclick="$('#{{ button_url }}').show(); $(this).hide(); resize_bigger_card();">
-			       Show more...
-			    </a>
-			  </div>
-			<div class="mdl-card__menu">
-            <button id="resize" class="mdl-button bigmap" onclick="resize();">
-                <i class="material-icons">expand_less</i>
-            </button>
-			</div>
-		</div>`, card_data);
+    var card_render = Mustache.render(place_card_template, card_data);
     return card_render
 }
 
