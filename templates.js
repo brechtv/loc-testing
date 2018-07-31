@@ -32,7 +32,7 @@ var place_card_template = `
       </div>
       <div class="mdl-card__supporting-text" id="distance_duration">
       </div>
-      <div class="mdl-card__supporting-text">
+      <div class="mdl-card__supporting-text hidden_content" style="display: none;">
        <p>{{ subtitle }}</p>
       </div>
       <div class="mdl-card__menu">
