@@ -4,12 +4,35 @@
 
 @import url('https://fonts.googleapis.com/css?family=Roboto|Roboto+Slab');
 
-h1, h2, h3, h4 {
-  font-family: 'Roboto Slab', serif;
-  color: #673AB7;
+html, body {
+  background-color: #4CAF50;
 }
 
+h1, h2, h3, h4, h5 {
+  font-family: 'Roboto Slab', serif;
+  color: #fff;
+}
+
+.card > .card-header {
+  background-color: #388E3C;
+}
+
+#card_title {
+  color: white;
+}
+
+.app-header {
+  text-align: center;
+  }
 
 #map {
+  position: relative;
   height: 50vh;
+  background-color: lightgrey;
+  line-height: 25vh;
+}
+
+#map_placeholder {
+  text-align: center;
+  color: white;
 }

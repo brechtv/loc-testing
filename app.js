@@ -17,11 +17,17 @@ $(function() {
                         lat: lat,
                         lng: lng
                     };
-                    initialize(returned_location);
+                    // initialize(returned_location);
+                    initialize({
+                        lat: 51.208785,
+                        lng: 3.224299
+                    })
                 },
                 function(error) {
-                    if (error.code == error.PERMISSION_DENIED)
-                        alert("Location services denied, please allow location services for this functionality.")
+                    initialize({
+                        lat: 51.208785,
+                        lng: 3.224299
+                    });
                 });
         } else {
             initialize({
@@ -34,6 +40,7 @@ $(function() {
 })
 
 function initialize(location) {
+    update_card_text("Use the Map!", "It's awesome!", "5/5!")
     current_location = new google.maps.LatLng(location.lat, location.lng);
 
     map = new google.maps.Map(document.getElementById('map'), {
@@ -53,7 +60,7 @@ function initialize(location) {
         query: "bars or pubs",
         location: current_location,
         radius: '1000',
-        // openNow: true,
+        openNow: true,
         types: ['cafe']
     };
 
@@ -123,7 +130,7 @@ function card_clickhandler(directionsService, directionsDisplay, place, pointA, 
 
             duration = response.routes[0].legs[0].duration.text
             distance = response.routes[0].legs[0].distance.text
-            $("#card_subtitle").html(duration + " walking (" + distance + ")")
+            $("#card_subtitle").html('<span style="color: #353535; font-style: bold;">' + duration + " walking (" + distance + ")</span>")
 
         } else {
             // window.alert('Directions request failed due to ' + status);
@@ -132,13 +139,15 @@ function card_clickhandler(directionsService, directionsDisplay, place, pointA, 
         var name = place.name
         var address = place.formatted_address
         var rating = place.rating
-        var open = ("Open Now" ? place.opening_hours != undefined && place.opening_hours.open_now : "CLosed")
+        var open = ("Open Now" ? place.opening_hours != undefined && place.opening_hours.open_now : "Closed")
         $("#card_title").html(name)
-        $("#card_subtitle").append(" - " + address)
+        $("#card_subtitle").append("<br>" + '<span style="color: #656565;">' + address + "</span>")
         $("#card_rating").html(rating + " / 5")
     });
 }
 
-function clear() {
-    $(".clear_content").remove()
+function update_card_text(title, content, rating) {
+    $("#card_title").html(title)
+    $("#card_subtitle").append(content)
+    $("#card_rating").html(rating)
 }
