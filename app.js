@@ -6,14 +6,31 @@ var directionsService = new google.maps.DirectionsService();
 var directionsDisplay = new google.maps.DirectionsRenderer();
 
 $(function() {
-    $(".mdl-content").append(`
-        <div class="mdl-card mdl-card-wide mdl-shadow--2dp clear_content">
-            <div id="map"></div>
-        </div>`)
-    initialize({
-        lat: 51.208785,
-        lng: 3.224299
-    });
+    getLocation()
+
+    function getLocation() {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(function(position) {
+                    lat = position.coords.latitude;
+                    lng = position.coords.longitude;
+                    var returned_location = {
+                        lat: lat,
+                        lng: lng
+                    };
+                    initialize(returned_location);
+                },
+                function(error) {
+                    if (error.code == error.PERMISSION_DENIED)
+                        alert("Location services denied, please allow location services for this functionality.")
+                });
+        } else {
+            initialize({
+                lat: 51.208785,
+                lng: 3.224299
+            });
+        }
+    }
+
 })
 
 function initialize(location) {
@@ -33,26 +50,28 @@ function initialize(location) {
     markers.push(current_location_marker)
 
     var request = {
+        query: "bars or pubs",
         location: current_location,
-        radius: '2000',
-        types: ['bar']
+        radius: '1000',
+        // openNow: true,
+        types: ['cafe']
     };
 
     service = new google.maps.places.PlacesService(map);
-    service.nearbySearch(request, callback);
+    service.textSearch(request, callback);
 }
 
 function callback(results, status) {
     if (status == google.maps.places.PlacesServiceStatus.OK) {
         for (var i = 0; i < results.length; i++) {
             var place = results[i];
-            console.log(place)
             createMarker(place)
         }
     }
 }
 
 function createMarker(place) {
+
     var dot = {
         path: 'M-1,0a1,1 0 1,0 2,0a1,1 0 1,0 -2,0',
         fillColor: '#3F51B5',
@@ -75,12 +94,25 @@ function createMarker(place) {
     marker.addListener('click', function() {
         directionsDisplay.setMap(null);
         directionsDisplay.setMap(map);
-
-        x = get_route(directionsService, directionsDisplay, current_location, place.geometry.location);
+        console.log(place)
+        card_clickhandler(
+            directionsService,
+            directionsDisplay,
+            place,
+            current_location,
+            place.geometry.location
+        );
     })
+
+    bound = new google.maps.LatLngBounds();
+    for (var i in markers) {
+        bound.extend(markers[i].getPosition());
+    }
+    map.fitBounds(bound);
 }
 
-function get_route(directionsService, directionsDisplay, pointA, pointB) {
+
+function card_clickhandler(directionsService, directionsDisplay, place, pointA, pointB) {
     directionsService.route({
         origin: pointA,
         destination: pointB,
@@ -88,12 +120,22 @@ function get_route(directionsService, directionsDisplay, pointA, pointB) {
     }, function(response, status) {
         if (status == google.maps.DirectionsStatus.OK) {
             directionsDisplay.setDirections(response);
+
             duration = response.routes[0].legs[0].duration.text
             distance = response.routes[0].legs[0].distance.text
-            $("#distance_duration").html(duration + " walking (" + distance + ")")
+            $("#card_subtitle").html(duration + " walking (" + distance + ")")
+
         } else {
-            window.alert('Directions request failed due to ' + status);
+            // window.alert('Directions request failed due to ' + status);
         }
+
+        var name = place.name
+        var address = place.formatted_address
+        var rating = place.rating
+        var open = ("Open Now" ? place.opening_hours != undefined && place.opening_hours.open_now : "CLosed")
+        $("#card_title").html(name)
+        $("#card_subtitle").append(" - " + address)
+        $("#card_rating").html(rating + " / 5")
     });
 }
 

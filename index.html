@@ -3,40 +3,43 @@
 	<head>
 		<title>Loco</title>
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-		<link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.indigo-pink.min.css">
-		<script defer src="https://code.getmdl.io/1.3.0/material.min.js"></script>
+		<link rel="stylesheet" href="https://unpkg.com/bootstrap-material-design@4.1.1/dist/css/bootstrap-material-design.min.css" integrity="sha384-wXznGJNEXNG1NFsbm0ugrLFMQPWswR3lds2VeinahP8N0zJw9VWSopbjv2x7WCvX" crossorigin="anonymous">
 		<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDnJ6YfjWb7bDBtJl9OyGHzJybd6C7n0Eg&libraries=geometry,places"></script>
-		<!-- <script defer src="vendor/infobox/infobox.js"></script> -->
 		<link rel="stylesheet" type="text/css" href="app.css">
 	</head>
 	<body>
-		<body>
-			<div class="mdl-layout mdl-js-layout">
-				<div class="mdl-layout__drawer">
-					<span class="mdl-layout-title">Getting around</span>
-					<nav class="mdl-navigation">
-						<li class="mdl-navigation__link" href="">
-							<label for="settings_max_distance">Set maximum distance you'd like to walk</label>
-							<input id="settings_max_distance" class="mdl-slider mdl-js-slider" type="range"
-							min="1" max="4" value="2" tabindex="0">
-						</li>
-						<button class="mdl-button" id="save_reload">Save and reload</button>
-					</nav>
-				</div>
-				<main class="mdl-layout__content">
-					<div class="page-content">
-						<div class="mdl-tabs mdl-js-tabs mdl-js-ripple-effect">
-							<div class="mdl-container mdl-grid">
-								<div class="mdl-content mdl-shadow--0dp content mdl-color-text--grey-800 mdl-cell mdl-cell--8-col">
-
-								</div>
-							</div>
-						</main>
+		<div class="container">
+			<div class="r1 row">
+				<div class="col">
+					<div class="app-header">
+						<h1 class="jumbotron-heading">a</h1>
+						<p>b</p>
 					</div>
-					<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-					<script src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/2.3.0/mustache.min.js"></script>
-					<script type="text/javascript" src="templates.js"></script>
-					<script type="text/javascript" src="app.js"></script>
-				</body>
-			</html>
+				</div>
+			</div>
+			<div class="r2 row">
+				<div class="col">
+					<div id="map" class="card">
+					</div>
+				</div>
+			</div>
+			<div class="r3 row">
+				<div class="col">
+
+					<div class="card">
+						<div class="card-body">
+							<h5 class="card-title" id="card_title">Card title</h5>
+							<p class="card-text" id="card_subtitle">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+							<p class="card-text" id="card_rating"></p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<script src="https://code.jquery.com/jquery-3.2.1.min.js" crossorigin="anonymous"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+		<script type="text/javascript" src="templates.js"></script>
+		<script type="text/javascript" src="app.js"></script>
+	</body>
+</html>
