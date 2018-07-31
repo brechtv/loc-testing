@@ -5,19 +5,40 @@
 @import url('https://fonts.googleapis.com/css?family=Roboto|Roboto+Slab');
 
 html, body {
-  background-color: #4CAF50;
+  background-color: #fff;
+}
+
+.container {
+  max-width: 800px;
 }
 
 h1, h2, h3, h4, h5 {
   font-family: 'Roboto Slab', serif;
-  color: #fff;
+  color: white;
+  text-shadow: 3;
+}
+
+.jumbotron-heading {
+  background-color: #F15854;
+  padding: 5px;
+  margin-top: 5px;
+  font-weight: bold;
+  border-radius: 5px;
 }
 
 .card > .card-header {
-  background-color: #388E3C;
+  background-color: #5DA5DA;
 }
 
 #card_title {
+  color: white;
+}
+
+#card_rating_span {
+  padding: 5px;
+  margin-top: 5px;
+  font-weight: bold;
+  border-radius: 5px;
   color: white;
 }
 
@@ -28,11 +49,11 @@ h1, h2, h3, h4, h5 {
 #map {
   position: relative;
   height: 50vh;
-  background-color: lightgrey;
+  background-color: #E3F2FD;
   line-height: 25vh;
 }
 
 #map_placeholder {
   text-align: center;
-  color: white;
+  color: #F15854;
 }
