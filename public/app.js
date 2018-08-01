@@ -1,4 +1,4 @@
-var language;
+var language = 'en';
 var map;
 var service;
 var current_location;
@@ -8,55 +8,28 @@ var directionsDisplay = new google.maps.DirectionsRenderer();
 
 $(function() {
     language = getParameterByName("lg")
-    console.log(language)
-    $("#get_started").click(getLocation);
-
-    function getLocation() {
-        if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(function(position) {
-                    lat = position.coords.latitude;
-                    lng = position.coords.longitude;
-                    var returned_location = {
-                        lat: lat,
-                        lng: lng
-                    };
-                    // initialize(returned_location);
-                    initialize({
-                        lat: 51.208785,
-                        lng: 3.224299
-                    })
-                },
-                function(error) {
-                    initialize({
-                            lat: 51.208785,
-                            lng: 3.224299
-                        })
-                        // $("#map_placeholder").html("Location not found!")
-                        // update_card_text("Uh oh.", "Location not found!", "Please enable location services to use this app.")
-                });
-        } else {
-            initialize({
-                    lat: 51.208785,
-                    lng: 3.224299
-                })
-                // $("#map_placeholder").html("Location not found!")
-                // update_card_text("Uh oh.", "Location not found!", "Please enable location services to use this app.")
-        }
-    }
+    $("#get_started").click(startApp);
 
     $("#btn_br").click(function() {
         language = "br"
         setParameterByName("lg", language)
+        updateContent(language)
+
     })
     $("#btn_nl").click(function() {
         language = "nl"
         setParameterByName("lg", language)
+        updateContent(language)
     })
     $("#btn_en").click(function() {
         language = "en"
         setParameterByName("lg", language)
+        updateContent(language)
     })
 
+    $("#get_started").click(function() {
+        startApp;
+    })
 
     function getParameterByName(name, url) {
         if (!url) url = window.location.href;
@@ -77,10 +50,50 @@ $(function() {
         }
     }
 
+    function updateContent(language) {
+        replace_card_text(intro_card, language)
+    }
+
 })
 
+function startApp() {
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(function(position) {
+                lat = position.coords.latitude;
+                lng = position.coords.longitude;
+                var returned_location = {
+                    lat: lat,
+                    lng: lng
+                };
+                // initialize(returned_location);
+                initialize({
+                    lat: 51.208785,
+                    lng: 3.224299
+                }, language)
+            },
+            function(error) {
+                initialize({
+                        lat: 51.208785,
+                        lng: 3.224299
+                    }, language)
+                    // $("#map_placeholder").html("Location not found!")
+                    // update_card_text("Uh oh.", "Location not found!", "Please enable location services to use this app.")
+            });
+    } else {
+        initialize({
+                lat: 51.208785,
+                lng: 3.224299
+            }, language)
+            // $("#map_placeholder").html("Location not found!")
+            // update_card_text("Uh oh.", "Location not found!", "Please enable location services to use this app.")
+    }
+}
+
 function initialize(location, lg) {
-    update_card_text("Use the Map!", "It's awesome!", "5/5!")
+
+
+    // update_card_text("Use the Map!", "It's awesome!", "5/5!")
+    update_card_text(intro_card, language)
     current_location = new google.maps.LatLng(location.lat, location.lng);
 
     map = new google.maps.Map(document.getElementById('map'), {
@@ -209,8 +222,16 @@ function card_clickhandler(directionsService, directionsDisplay, place, pointA, 
     });
 }
 
-function update_card_text(title, content, rating) {
-    $("#card_title").html(title)
-    $("#card_subtitle").html(content)
-    $("#card_rating").html(rating)
+function update_splash_text(type, language) {
+    var card_content = type[language];
+    $("#card_title").html(card_content.title)
+    $("#card_subtitle").html(card_content.subtitle)
+    $("#get_started").html(card_content.content)
+}
+
+function update_card_text(type, language) {
+    var card_content = type[language];
+    $("#card_title").html(card_content.title)
+    $("#card_subtitle").html(card_content.subtitle)
+    $("#card_rating").html(card_content.content)
 }
