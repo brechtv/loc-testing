@@ -1,3 +1,4 @@
+var language;
 var map;
 var service;
 var current_location;
@@ -6,7 +7,9 @@ var directionsService = new google.maps.DirectionsService();
 var directionsDisplay = new google.maps.DirectionsRenderer();
 
 $(function() {
-    getLocation()
+    language = getParameterByName("lg")
+    console.log(language)
+    $("#get_started").click(getLocation);
 
     function getLocation() {
         if (navigator.geolocation) {
@@ -17,25 +20,66 @@ $(function() {
                         lat: lat,
                         lng: lng
                     };
-                    initialize(returned_location);
-                    // initialize({
-                    //     lat: 51.208785,
-                    //     lng: 3.224299
-                    // })
+                    // initialize(returned_location);
+                    initialize({
+                        lat: 51.208785,
+                        lng: 3.224299
+                    })
                 },
                 function(error) {
-                    $("#map_placeholder").html("Location not found!")
-                    update_card_text("Uh oh.", "Location not found!", "Please enable location services to use this app.")
+                    initialize({
+                            lat: 51.208785,
+                            lng: 3.224299
+                        })
+                        // $("#map_placeholder").html("Location not found!")
+                        // update_card_text("Uh oh.", "Location not found!", "Please enable location services to use this app.")
                 });
         } else {
-            $("#map_placeholder").html("Location not found!")
-            update_card_text("Uh oh.", "Location not found!", "Please enable location services to use this app.")
+            initialize({
+                    lat: 51.208785,
+                    lng: 3.224299
+                })
+                // $("#map_placeholder").html("Location not found!")
+                // update_card_text("Uh oh.", "Location not found!", "Please enable location services to use this app.")
+        }
+    }
+
+    $("#btn_br").click(function() {
+        language = "br"
+        setParameterByName("lg", language)
+    })
+    $("#btn_nl").click(function() {
+        language = "nl"
+        setParameterByName("lg", language)
+    })
+    $("#btn_en").click(function() {
+        language = "en"
+        setParameterByName("lg", language)
+    })
+
+
+    function getParameterByName(name, url) {
+        if (!url) url = window.location.href;
+        name = name.replace(/[\[\]]/g, '\\$&');
+        var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
+            results = regex.exec(url);
+        if (!results) return null;
+        if (!results[2]) return '';
+        return decodeURIComponent(results[2].replace(/\+/g, ' '));
+    }
+
+    function setParameterByName(name, value) {
+        if (history.pushState) {
+            var newurl = window.location.protocol + "//" + window.location.host + window.location.pathname + '?' + name + '=' + value;
+            window.history.pushState({
+                path: newurl
+            }, '', newurl);
         }
     }
 
 })
 
-function initialize(location) {
+function initialize(location, lg) {
     update_card_text("Use the Map!", "It's awesome!", "5/5!")
     current_location = new google.maps.LatLng(location.lat, location.lng);
 
@@ -65,7 +109,8 @@ function initialize(location) {
         location: current_location,
         radius: '500',
         openNow: true,
-        types: ['pub']
+        types: ['bar'],
+        language: 'nl'
     };
 
     service = new google.maps.places.PlacesService(map);
@@ -77,6 +122,7 @@ function callback(results, status) {
     if (status == google.maps.places.PlacesServiceStatus.OK) {
         for (var i = 0; i < results.length; i++) {
             var place = results[i];
+            console.log(place)
             if (
                 place.types.indexOf("pub") > -1 ||
                 place.types.indexOf("bar") > -1
@@ -152,7 +198,6 @@ function card_clickhandler(directionsService, directionsDisplay, place, pointA, 
             } else {
                 rating_color = "#F15854"
             }
-            var open = ("Open Now" ? place.opening_hours != undefined && place.opening_hours.open_now : "Closed")
             title_html = name
             address_html = distance_duration + "<br>" + '<span style="color: #656565;">' + address + "</span>"
 

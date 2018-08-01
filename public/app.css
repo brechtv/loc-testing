@@ -1,10 +1,8 @@
-/* #673AB7
-#4CAF50
-#8BC34A */
+/* http://www.color-hex.com/color/ff5722 */
 
 @import url('https://fonts.googleapis.com/css?family=Roboto|Roboto+Slab');
 
-html, body {
+body {
   background-color: #fff;
 }
 
@@ -19,7 +17,7 @@ h1, h2, h3, h4, h5 {
 }
 
 .jumbotron-heading {
-  background-color: #F15854;
+  background: linear-gradient(rgba(204,69,27, 0.8), rgba(204,69,27, 0.8)), url("images/wood-pattern.png");
   padding: 5px;
   margin-top: 5px;
   font-weight: bold;
@@ -27,7 +25,7 @@ h1, h2, h3, h4, h5 {
 }
 
 .card > .card-header {
-  background-color: #5DA5DA;
+  background: linear-gradient(rgba(102,34,13, 0.8), rgba(102,34,13, 0.8)), url("images/wood-pattern.png");
 }
 
 #card_title {
@@ -49,11 +47,31 @@ h1, h2, h3, h4, h5 {
 #map {
   position: relative;
   height: 50vh;
-  background-color: #E3F2FD;
+  /*background-color: #E3F2FD;*/
+  background: linear-gradient(rgba(255,171,144, 0.35), rgba(255,171,144, 0.65)), url("images/vlissinghe.jpg") center;
   line-height: 25vh;
 }
 
 #map_placeholder {
   text-align: center;
-  color: #F15854;
+  color: white;
 }
+
+#get_started {
+  background-color: #F15854;
+  color: white;
+}
+
+#btn_nl, #btn_br, #btn_en {
+  background-color: rgba(255,171,144, 0.35);
+  color: white;
+
+}
+
+#btn_nl:hover, #btn_br:hover, #btn_en:hover {
+  background-color: rgba(255,171,144, 0.9);
+  color: white;
+
+}
+
+

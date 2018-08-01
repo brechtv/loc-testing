@@ -2,20 +2,20 @@
 <html>
 	<head>
 		<meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="description" content="Find the nearest open pub!">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
-        <title>Nearest Pub - Find an open pub anywhere</title>
-        <meta name="mobile-web-app-capable" content="yes">
-        <meta name="keywords" content="nearest pub pint">
-        <meta name="apple-mobile-web-app-capable" content="yes">
-        <meta name="apple-mobile-web-app-status-bar-style" content="black">
-        <meta name="apple-mobile-web-app-title" content="Nearest Pub">
-        <meta name="msapplication-TileColor" content="#3372DF">
-        <meta property="og:title" content="Nearest Pub" />
-        <meta property="og:type" content="website" />
-        <meta property="og:site_name" content="Nearest Pub - Find an open pub anywhere" />
-        <meta property="og:description" content="Find an open pub. Optimized for web and mobile." />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="description" content="Find the nearest open pub!">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+		<title>Nearest Pub - Find an open pub anywhere</title>
+		<meta name="mobile-web-app-capable" content="yes">
+		<meta name="keywords" content="nearest pub pint">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<meta name="apple-mobile-web-app-title" content="Nearest Pub">
+		<meta name="msapplication-TileColor" content="#3372DF">
+		<meta property="og:title" content="Nearest Pub" />
+		<meta property="og:type" content="website" />
+		<meta property="og:site_name" content="Nearest Pub - Find an open pub anywhere" />
+		<meta property="og:description" content="Find an open pub. Optimized for web and mobile." />
 		<link rel="stylesheet" href="https://unpkg.com/bootstrap-material-design@4.1.1/dist/css/bootstrap-material-design.min.css" integrity="sha384-wXznGJNEXNG1NFsbm0ugrLFMQPWswR3lds2VeinahP8N0zJw9VWSopbjv2x7WCvX" crossorigin="anonymous">
 		<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDnJ6YfjWb7bDBtJl9OyGHzJybd6C7n0Eg&libraries=geometry,places"></script>
 		<link rel="stylesheet" type="text/css" href="app.css">
@@ -33,29 +33,34 @@
 			<div class="r2 row">
 				<div class="col">
 					<div id="map" class="card">
-						<p id="map_placeholder">Enable/disable location to get started.</p>
+						<p id="map_placeholder">Enable/disable location to get started. </p>
 					</div>
 				</div>
 			</div>
 			<div class="r3 row">
 				<div class="col">
-
 					<div class="card">
 						<div class="card-header">
 							<h5 id="card_title">Please allow location services.</h5>
 						</div>
 						<div class="card-body">
-							<p class="card-text" id="card_subtitle">Since we're showing the nearest open pubs around you, we need to know where you are!</p>
-							<p class="card-text" id="card_rating"></p>
+							<p class="card-text" id="card_subtitle">
+								<div class="btn-group" role="group" aria-label="Language">
+									<button id="btn_br" type="button" class="btn-lang btn btn-secondary">Bruhs</button>
+									<button id="btn_nl" type="button" class="btn-lang btn btn-secondary">Nederlands</button>
+									<button id="btn_en" type="button" class="btn-lang btn btn-secondary">English</button>
+								</div></p>
+								<p class="card-text" id="card_rating"></p>
+								<button id="get_started" class="btn btn-primary">Show me pubs!</button>
+							</div>
 						</div>
 					</div>
 				</div>
 			</div>
-		</div>
-		<script src="https://code.jquery.com/jquery-3.2.1.min.js" crossorigin="anonymous"></script>
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-		<script type="text/javascript" src="mapstyles.js"></script>
-		<script type="text/javascript" src="app.js"></script>
-	</body>
-</html>
+			<script src="https://code.jquery.com/jquery-3.2.1.min.js" crossorigin="anonymous"></script>
+			<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+			<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+			<script type="text/javascript" src="mapstyles.js"></script>
+			<script type="text/javascript" src="app.js"></script>
+		</body>
+	</html>
